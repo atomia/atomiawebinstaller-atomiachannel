@@ -63,7 +63,7 @@ mysqldump -u atomia-db-user -patomia-db-pass -h atomia-db-host atomia-wordpress-
 12. Execute:
 mysql -u atomia-db-user -patomia-db-pass -h atomia-db-host atomia-wordpress-db-name -e "update atomia_db_tableprefixusers set user_pass = 'atomia-blog-password'"
 
-13. Create a file wordpress-base.xmltemplate it can be found in previos version
+13. Create a file wordpress-base.xmltemplate based on it's previos version
 
 14. Execute
 
