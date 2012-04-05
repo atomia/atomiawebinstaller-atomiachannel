@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<package
+	name="WordPress"
+	version="3.2.1"
+	description="WordPress is web software you can use to create a beautiful website or blog.
+		We like to say that WordPress is both free and priceless at the same time."
+
+	url="http://wordpress.org/"
+	icon="#include_base64(grey-s.png)"
+
+	license="GPLv2"
+	language="English"
+	category="Blogging">
+
+	<tags>
+		<tag value="wordpress"/>
+		<tag value="cms"/>
+		<tag value="blogging"/>
+		<tag value="blog"/>
+	</tags>
+	<changelog>
+		<change when="2010-12-06 20:35" version="3.0.2">Created the first version of our package of wordpress.</change>
+		<change when="2011-02-23 00:03" version="3.0.5">Upgraded to the latest version.</change>
+		<change when="2011-02-25 11:03" version="3.1">Upgraded to the latest version.</change>
+		<change when="2011-04-11 09:03" version="3.1">Set FS_METHOD to direct in wp-config.php.</change>
+		<change when="2011-10-24 08:47" version="3.2.1">Upgraded to the latest version.</change>
+	</changelog>
+	<requirements>
+		<language type="php" version="5">
+			<extension name="mysql" />
+		</language>
+		<webserver type="apache"/>
+		<database type="mysql">
+			<hostname parameter="db_host" />
+			<username parameter="db_user" />
+			<password parameter="db_pass" />
+			<name parameter="db_name" />
+			<tableprefix parameter="db_table_prefix" />
+			<createschema>#sqldump_base64(atomia-db-host,atomia-db-user,atomia-db-pass,atomia-wordpress-db-name)</createschema>
+		</database>
+	</requirements>
+	<functionality upgradeable="true" cloneable="false"/>
+	<settings>
+		<parameters>
+			<parameter id="db_host" description="MySQL hostname" required="true" type="dbhost" />
+			<parameter id="db_user" description="MySQL username" required="true" type="dbuser" />
+			<parameter id="db_pass" description="MySQL password" required="true" type="dbpass" />
+			<parameter id="db_name" description="MySQL database name" required="true" type="dbname" />
+			<parameter id="db_table_prefix" description="MySQL table prefix" default="wp_" required="true" type="dbtableprefix" />
+			<parameter id="hostname" description="Blog hostname" required="true" type="sitehostname" />
+			<parameter id="relative_url" description="Relative url to place blog under" default="/" required="true" type="siterelativeurl" />
+			<parameter id="user" description="Wordpress username" default="admin" required="true" type="adminuser" />
+			<parameter id="pass" description="Wordpress password" required="true" type="adminpass" />
+			<parameter id="title" description="Blog title" required="true" type="sitetitle" default="My Blog" />
+			<parameter id="email" description="Blog administrator email" required="true" type="adminemail" />
+		</parameters>
+		<files>
+			<keyword parameter="db_host" name="atomia-db-host" searchedfiles="wp-config.php"/>
+			<keyword parameter="db_user" name="atomia-db-user" searchedfiles="wp-config.php"/>
+			<keyword parameter="db_pass" name="atomia-db-pass" searchedfiles="wp-config.php"/>
+			<keyword parameter="db_name" name="atomia-wordpress-db-name" searchedfiles="wp-config.php"/>
+			<keyword parameter="db_table_prefix" name="atomia_db_tableprefix" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string1" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string2" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string3" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string4" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string5" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string6" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string7" searchedfiles="wp-config.php"/>
+			<keyword value="$random_string(16)" name="atomia-random-string8" searchedfiles="wp-config.php"/>
+		</files>
+		<schema>
+			<keyword parameter="db_table_prefix" name="atomia_db_tableprefix" />
+			<keyword parameter="hostname" name="atomia-hostname" />
+			<keyword parameter="relative_url" name="/atomia-relative-wordpress-url" />
+			<keyword parameter="user" name="atomia-blog-username" />
+			<keyword parameter="pass" parameter_filter="md5" name="atomia-blog-password" />
+			<keyword parameter="title" name="atomia_site_title" />
+			<keyword parameter="email" name="atomia-blog-email@example.com" />
+			<keyword value="$strftime(%Y-%m-%d %H:%M:%S)" name="2010-12-06 19:21:40" />
+		</schema>
+	</settings>
+	<scripts>
+		<postupgrade>
+			<command relative_cwd="wp-admin">php -r '$_GET["step"] = "upgrade_db"; require_once("upgrade.php");'</command>
+		</postupgrade>
+		<postclone>
+			<sql>
+				UPDATE $new{db_table_prefix}options
+				SET option_value = 'http://$new{hostname}$new{relative_url}'
+				WHERE option_name IN ('home', 'siteurl');
+
+				UPDATE $new{db_table_prefix}posts
+				SET guid = REPLACE (guid,	'http://$old{hostname}$old{relative_url}',
+								'http://$new{hostname}$new{relative_url}');
+			</sql>
+		</postclone>
+	</scripts>
+	<dashboard>
+		<url type="relative" entrytype="adminurl" name="/wp-admin/" description="WordPress Admin" icon=""/>
+		<url type="relative" entrytype="appurl" name="/" description="Your blog" icon=""/>
+		<url type="absolute" entrytype="docurl" name="http://codex.wordpress.org/Main_Page" description="Documentation" icon=""/>
+	</dashboard>
+	<tarball owner_inheritfolder="true" group_inheritfolder="true">#tarball_base64()</tarball>
+</package>

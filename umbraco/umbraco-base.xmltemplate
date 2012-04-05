@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<package
+	name="Umbraco"
+	version="4.6.1"
+	description="Priceless CMS at the cost of virtually nothing."
+
+	url="http://www.umbraco.org/"
+	icon="#include_base64(logo.png)"
+
+	license="GPLv2"
+	language="English"
+	category="CMS">
+
+	<tags>
+		<tag value="umbraco"/>
+		<tag value="cms"/>
+	</tags>
+	<changelog>
+		<change when="2011-01-20 20:15" version="1.6.0">Created the first version of our package of Umbraco.</change>
+	</changelog>
+	<requirements>
+		<language type="asp.net" version="4.0" />
+		<webserver type="iis"/>
+		<database type="mssql">
+			<hostname parameter="db_host" />
+			<username parameter="db_user" />
+			<password parameter="db_pass" />
+			<name parameter="db_name" />
+			<createschema>#include_base64(umbraco.schema.nodrop.sql)</createschema>
+		</database>
+	</requirements>
+	<functionality upgradeable="false" cloneable="false"/>
+	<settings>
+		<parameters>
+			<parameter id="db_host" description="MSSQL hostname" required="true" type="dbhost" />
+			<parameter id="db_user" description="MSSQL username" required="true" type="dbuser" />
+			<parameter id="db_pass" description="MSSQL password" required="true" type="dbpass" />
+			<parameter id="db_name" description="MSSQL database name" required="true" type="dbname" />
+			<parameter id="relative_url" description="Relative url to place site under" default="/" required="true" type="siterelativeurl" />
+			<parameter id="name" description="Admin name" required="true" type="adminname" />
+			<parameter id="user" description="Admin username" default="admin" required="true" type="adminuser" />
+			<parameter id="pass" description="Admin password" required="true" type="adminpass" />
+			<parameter id="email" description="Site administrator email" required="true" type="adminemail" />
+		</parameters>
+		<files>
+			<keyword parameter="db_host" name="atomia-mssql-db-host" searchedfiles="web.config"/>
+			<keyword parameter="db_user" name="atomia-db-user" searchedfiles="web.config"/>
+			<keyword parameter="db_pass" name="atomia-db-pass" searchedfiles="web.config"/>
+			<keyword parameter="db_name" name="atomia-db-name" searchedfiles="web.config"/>
+			<keyword parameter="name" name="atomia-admin-name" searchedfiles="umbraco.config"/>
+		</files>
+		<schema>
+			<keyword parameter="name" name="atomia-admin-name" />
+			<keyword parameter="user" name="atomia-admin-user" />
+			<keyword parameter="pass" name="atomia-admin-pass" />
+			<keyword parameter="email" name="atomia-site-email@example.com" />
+			<keyword value="$strftime(%Y-%m-%dT%H:%M:%S)" name="2011-01-22T21:54:02" />
+			<keyword value="$strftime(%Y-%m-%dT%H:%M:%S)" name="2011-01-22T21:53:40" />
+			<keyword value="$strftime(%Y-%m-%dT%H:%M:%S)" name="2011-01-22T21:54:12" />
+		</schema>
+	</settings>
+	<dashboard>
+		<url type="relative" entrytype="adminurl" name="/umbraco/" description="Umbraco Administration" icon="" />
+		<url type="relative" entrytype="appurl" name="/" description="Your site" icon="" />
+		<url type="absolute" entrytype="docurl" name="http://our.umbraco.org/" description="Documentation" icon=""/>
+	</dashboard>
+	<tarball owner_inheritfolder="true" group_inheritfolder="true">#tarball_base64()</tarball>
+</package>

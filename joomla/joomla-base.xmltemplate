@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<package
+	name="Joomla"
+	version="2.5.1"
+	description="Joomla is a free, open-source content management system (CMS) and application framework that powers 2.6% of the entire web. With a vibrant volunteer community, user-friendly features and plenty of power, Joomla is perfect for your site!"
+
+	url="http://www.joomla.org/"
+	icon="#include_base64(joomla_hostprov_sm.png)"
+
+	license="GPLv2"
+	language="Swedish"
+	category="CMS">
+
+	<tags>
+		<tag value="joomla"/>
+		<tag value="cms"/>
+	</tags>
+	<changelog>
+		<change when="2012-03-06 09:10" version="2.5.1">Created the first version of our package of Joomla.</change>
+	</changelog>
+	<requirements>
+		<language type="php" version="5.3.2">
+			<extension name="mysqli" />
+		</language>
+		<webserver type="apache"/>
+		<database type="mysql">
+			<hostname parameter="db_host" />
+			<username parameter="db_user" />
+			<password parameter="db_pass" />
+			<name parameter="db_name" />
+			<tableprefix parameter="atdbtprefix_" />
+			<createschema>#sqldump_base64(atomia-db-host,atomia-db-user,atomia-db-pass,atomia-joomla-db-name)</createschema>
+		</database>
+	</requirements>
+	<functionality upgradeable="false" cloneable="false"/>
+	<settings>
+		<parameters>
+			<parameter id="db_host" description="MySQL hostname" required="true" type="dbhost" />
+			<parameter id="db_user" description="MySQL username" required="true" type="dbuser" />
+			<parameter id="db_pass" description="MySQL password" required="true" type="dbpass" />
+			<parameter id="db_name" description="MySQL database name" required="true" type="dbname" />
+			<parameter id="db_table_prefix" description="MySQL table prefix" default="jos_" required="true" type="dbtableprefix" />
+			<parameter id="hostname" description="Site hostname" required="true" type="sitehostname" />
+			<parameter id="relative_url" description="Relative url to place site under" default="/" required="true" type="siterelativeurl" />
+			<parameter id="user" description="Admin username" default="admin" required="true" type="adminuser" />
+			<parameter id="pass" description="Admin password" required="true" type="adminpass" />
+			<parameter id="title" description="Site title" required="true" type="sitetitle" default="My Site"/>
+			<parameter id="email" description="Site administrator email" required="true" type="adminemail" />
+			<parameter id="meta_keywords" description="Meta keywords" required="false" default="" type="rawstring" />
+			<parameter id="meta_description" description="Meta description" required="false" default="" type="rawstring" />
+		</parameters>
+		<files>
+			<keyword parameter="db_host" name="atomia-db-host" searchedfiles="configuration.php"/>
+			<keyword parameter="db_user" name="atomia-db-user" searchedfiles="configuration.php"/>
+			<keyword parameter="db_pass" name="atomia-db-pass" searchedfiles="configuration.php"/>
+			<keyword parameter="db_name" name="atomia-joomla-db-name" searchedfiles="configuration.php"/>
+			<keyword parameter="db_table_prefix" name="atdbtprefix_" searchedfiles="configuration.php"/>
+			<keyword parameter="title" name="atomia-site-title" searchedfiles="configuration.php"/>
+			<keyword parameter="meta_description" name="atomia-meta-description" searchedfiles="configuration.php"/>
+			<keyword parameter="meta_keywords" name="atomia-meta-keywords" searchedfiles="configuration.php"/>
+			<keyword parameter="email" name="atomia-site-email@example.com" searchedfiles="configuration.php"/>
+			<keyword value="$install_path()" name="/var/www/atomia-relative-joomla-url" searchedfiles="configuration.php"/>
+		</files>
+		<schema>
+			<keyword parameter="db_table_prefix" name="atdbtprefix_" />
+			<keyword parameter="user" name="atomia-admin-username" />
+			<keyword parameter="pass" parameter_filter="md5" name="atomia-admin-password" />
+			<keyword parameter="email" name="atomia-site-email@example.com" />
+			<keyword value="$strftime(%Y-%m-%d %H:%M:%S)" name="2012-03-06 07:40:04" />
+		</schema>
+	</settings>
+	<dashboard>
+		<url type="relative" entrytype="adminurl" name="/administrator/" description="Joomla! Administration Login" icon="" />
+		<url type="relative" entrytype="appurl" name="/" description="Your site" icon="" />
+		<url type="absolute" entrytype="docurl" name="http://docs.joomla.org/" description="Documentation" icon=""/>
+	</dashboard>
+	<tarball owner_inheritfolder="true" group_inheritfolder="true">#tarball_base64()</tarball>
+</package>
+

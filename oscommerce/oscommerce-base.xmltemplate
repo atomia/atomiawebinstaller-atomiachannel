@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<package
+	name="osCommerce"
+	version="3.0.2"
+	description="osCommerce Online Merchant is a complete online store solution that contains both a catalog frontend and an administration tool backend"
+
+	url="http://www.oscommerce.com/"
+	icon="#include_base64(oscommerce.gif)"
+
+	license="GPLv2"
+	language="English"
+	category="E-Commerce">
+
+	<tags>
+		<tag value="oscommerce"/>
+		<tag value="ecommerce"/>
+	</tags>
+	<changelog>
+		<change when="2011-01-20 20:15" version="2.3.1">Created the first version of our package of osCommerce.</change>
+		<change when="2011-11-02 12:59" version="3.0.2">Created new version of our package of osCommerce.</change>
+	</changelog>
+	<requirements>
+		<language type="php" version="5">
+			<extension name="mysql" />
+		</language>
+		<webserver type="apache"/>
+		<database type="mysql">
+			<hostname parameter="db_host" />
+			<username parameter="db_user" />
+			<password parameter="db_pass" />
+			<name parameter="db_name" />
+			<createschema>#sqldump_base64(atomia-db-host,atomia-db-user,atomia-db-pass,atomia-oscommerce-db-name)</createschema>
+		</database>
+	</requirements>
+	<functionality upgradeable="false" cloneable="false"/>
+	<settings>
+		<parameters>
+			<parameter id="db_host" description="MySQL hostname" required="true" type="dbhost" />
+			<parameter id="db_user" description="MySQL username" required="true" type="dbuser" />
+			<parameter id="db_pass" description="MySQL password" required="true" type="dbpass" />
+			<parameter id="db_name" description="MySQL database name" required="true" type="dbname" />
+			<parameter id="hostname" description="Site hostname" required="true" type="sitehostname" />
+			<parameter id="relative_url" description="Relative url to place site under" default="/" required="true" type="siterelativeurl" />
+			<parameter id="user" description="Admin username" default="admin" required="true" type="adminuser" />
+			<parameter id="pass" description="Admin password" required="true" type="adminpass" />
+			<parameter id="title" description="Store name" required="true" type="sitetitle" default="My Shop" />
+			<parameter id="owner" description="Store owner" required="true" type="adminname" />
+			<parameter id="email" description="Site administrator email" required="true" type="adminemail" />
+		</parameters>
+		<files>
+			<keyword parameter="db_host" name="atomia-db-host" searchedfiles="settings.ini"/>
+			<keyword parameter="db_user" name="atomia-db-user" searchedfiles="settings.ini"/>
+			<keyword parameter="db_pass" name="atomia-db-pass" searchedfiles="settings.ini"/>
+			<keyword parameter="db_name" name="atomia-oscommerce-db-name" searchedfiles="settings.ini"/>
+			<keyword parameter="hostname" name="atomia-hostname" searchedfiles="settings.ini"/>
+			<keyword parameter="relative_url" name='"/atomia-relative-oscommerce-url/' parameter_filter='prepend(")' searchedfiles="settings.ini"/>
+			<keyword value="$install_path()" name="/var/www/atomia-relative-oscommerce-url" searchedfiles="settings.ini"/>
+		</files>
+		<schema>
+			<keyword parameter="user" name="atomia-admin-username" />
+			<keyword parameter="pass" parameter_filter="md5-with-salt-before(2)" name="atomia-admin-password" />
+			<keyword parameter="email" name="atomia-site-email@example.com" />
+			<keyword parameter="title" name="atomia-store-name" />
+			<keyword parameter="owner" name="atomia-store-owner" />
+			<keyword value="$strftime(%Y-%m-%d %H:%M:%S)" name="2011-01-20 21:40:35" />
+			<keyword value="$install_path()" name="/var/www/atomia-relative-oscommerce-url" />
+		</schema>
+	</settings>
+	<dashboard>
+		<url type="relative" entrytype="adminurl" name="/index.php?Admin" description="Administrator Login" icon="" />
+		<url type="relative" entrytype="appurl" name="/" description="Your site" icon="" />
+		<url type="absolute" entrytype="docurl" name="http://www.oscommerce.com/community/support" description="Community Support" icon=""/>
+	</dashboard>
+	<tarball owner_inheritfolder="true" group_inheritfolder="true">#tarball_base64()</tarball>
+</package>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<package
+	name="MediaWiki"
+	version="1.18.1"
+	description="MediaWiki is a free software wiki package written in PHP, originally for use on Wikipedia."
+
+	url="http://www.mediawiki.org/"
+	icon="#include_base64(Wiki.png)"
+
+	license="GPLv2"
+	language="Swedish"
+	category="Wiki">
+
+	<tags>
+		<tag value="mediawiki"/>
+		<tag value="wiki"/>
+	</tags>
+	<changelog>
+		<change when="2012-02-22 12:01" version="1.18.1">Created the first version of our package of MediaWiki.</change>
+	</changelog>
+	<requirements>
+		<language type="php" version="5">
+			<extension name="mysql" />
+		</language>
+		<webserver type="apache"/>
+		<database type="mysql">
+			<hostname parameter="db_host" />
+			<username parameter="db_user" />
+			<password parameter="db_pass" />
+			<name parameter="db_name" />
+			<tableprefix parameter="db_table_prefix" />
+			<createschema>#sqldump_base64(atomia-db-host,atomia-db-user,atomia-db-pass,atomia-mediawiki-db-name)</createschema>
+		</database>
+	</requirements>
+	<functionality upgradeable="false" cloneable="false"/>
+	<settings>
+		<parameters>
+			<parameter id="db_host" description="MySQL hostname" required="true" type="dbhost" />
+			<parameter id="db_user" description="MySQL username" required="true" type="dbuser" />
+			<parameter id="db_pass" description="MySQL password" required="true" type="dbpass" />
+			<parameter id="db_name" description="MySQL database name" required="true" type="dbname" />
+			<parameter id="db_table_prefix" description="MySQL table prefix" default="mw_" required="true" type="dbtableprefix" />
+			<parameter id="hostname" description="Site hostname" required="true" type="sitehostname" />
+			<parameter id="relative_url" description="Relative url to place site under" default="/" required="true" type="siterelativeurl" />
+			<parameter id="user" description="Admin username" default="Admin" required="true" type="adminuser" />
+			<parameter id="pass" description="Admin password" required="true" type="adminpass" />
+			<parameter id="title" description="Wiki name" required="true" type="sitetitle" default="My Wiki" />
+			<parameter id="email" description="Site administrator email" required="true" type="adminemail" />
+		</parameters>
+		<files>
+			<keyword parameter="db_host" name="atomia-db-host" searchedfiles="LocalSettings.php"/>
+			<keyword parameter="db_user" name="atomia-db-user" searchedfiles="LocalSettings.php"/>
+			<keyword parameter="db_pass" name="atomia-db-pass" searchedfiles="LocalSettings.php"/>
+			<keyword parameter="hostname" name="atomia-hostname" searchedfiles="LocalSettings.php"/>
+			<keyword parameter="db_name" name="atomia-mediawiki-db-name" searchedfiles="LocalSettings.php"/>
+			<keyword parameter="db_table_prefix" name="atomia_db_tableprefix_" searchedfiles="LocalSettings.php"/>
+			<keyword parameter="title" name="Atomia-wiki-name" parameter_filter="substitute([^a-zA-Z0-9#\s._-],)" searchedfiles="LocalSettings.php"/>
+			<keyword parameter="relative_url" name="/atomia-relative-mediawiki-url" parameter_filter="substitute(/$,)" searchedfiles="LocalSettings.php"/>
+		</files>
+		<schema>
+			<keyword parameter="db_table_prefix" name="atomia_db_tableprefix_" />
+			<keyword parameter="db_name" name="atomia-mediawiki-db-name" />
+			<keyword parameter="user" name="Atomia-admin-usr" />
+			<keyword parameter="pass" parameter_filter="md5-with-prepend(:A:)" name="atomia-admin-password" />
+			<keyword parameter="relative_url" name="/atomia-relative-mediawiki-url" />
+			<keyword parameter="email" name="atomia-site-email@example.com" />
+			<keyword value="$strftime(%Y%m%d%H%M)" name="201101232156" />
+		</schema>
+	</settings>
+	<dashboard>
+		<url type="relative" entrytype="appurl" name="/" description="Your wiki" icon="" />
+	</dashboard>
+	<tarball owner_inheritfolder="true" group_inheritfolder="true">#tarball_base64()</tarball>
+</package>
+
