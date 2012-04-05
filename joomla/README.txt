@@ -52,8 +52,7 @@ mysqldump -u atomia-db-user -patomia-db-pass -h atomia-db-host atomia-joomla-db-
 12. Execute:
 mysql -u atomia-db-user -patomia-db-pass -h atomia-db-host atomia-joomla-db-name -e "update atdbtprefix_users set password = 'atomia-admin-password'"
 
-13. Create joomla-base.xml like:
-TODO
+13. Create a file joomla-base.xml.xmltemplate based on it's previos version
 
 14. Execute
 
